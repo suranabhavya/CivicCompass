@@ -6,7 +6,8 @@ export async function getCoordinates(address) {
       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`
     );
     const coordinates = await response.json();
-    return coordinates;
+    const { lat, lon } = coordinates[0];
+    return { lat, lon };
   } catch (error) {
     console.error('Error fetching coordinates:', error);
     throw error;
