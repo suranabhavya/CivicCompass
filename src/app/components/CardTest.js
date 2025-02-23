@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const CardTest = ({ title, description, speed, color }) => {
   return (
-    <StyledWrapper animationSpeed={speed} blobColor={color}>
+    <StyledWrapper animationspeed={speed} blobColor={color}>
       <div className="card">
         <div className="bg" />
         <div className="blob" />
@@ -58,8 +58,8 @@ const StyledWrapper = styled.div`
     background-color: ${({ blobColor }) => blobColor || "#0056b3"};
     opacity: 1;
     filter: blur(12px);
-    animation: blob-bounce ${({ animationSpeed }) =>
-      animationSpeed || "9s"} infinite ease;
+    animation: blob-bounce ${({ animationspeed }) =>
+      animationspeed || "9s"} infinite ease;
   }
 
   .content {
