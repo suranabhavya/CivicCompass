@@ -4,9 +4,9 @@ import { useState } from "react";
 export default function Dropdown() {
   const options = [
     { id: "all", label: "Business Type" },
-    { id: "option-1", label: "Option 1" },
-    { id: "option-2", label: "Option 2" },
-    { id: "option-3", label: "Option 3" },
+    { id: "Restaurant", label: "Restaurant / Café" },
+    { id: "Clothing", label: "Clothing" },
+    { id: "Pet Services", label: "Pet Services" },
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0]);
