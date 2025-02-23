@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import ExploreButton from "./components/BusinessButton";
 import ResidentialButton from "./components/ResidentialButton";
+import ScrollButton from "./components/ScrollDown";
 
 export default function HomePage() {
   const router = useRouter();
@@ -29,12 +30,13 @@ export default function HomePage() {
        
           <div className="flex justify-center">
             
-            {/* Use the ExploreButton here */}
             <div className="flex gap-12 justify-center">
+              {/* RETAIL Button */}
               <div className="ml-4">
                 <ExploreButton />
               </div>
 
+              {/* Residential Button */}
               <div className="flex justify-center">
                 <ResidentialButton />
               </div>
@@ -47,9 +49,7 @@ export default function HomePage() {
 
       {/* Scroll Down Indicator */}
       <div className="absolute bottom-8 animate-bounce z-10">
-        <svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-        </svg>
+        <ScrollButton />
       </div>
     </section>
   );
