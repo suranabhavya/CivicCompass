@@ -21,21 +21,26 @@ export async function GET(request) {
     Here are some public code violations nearby:
     ${JSON.stringify(violations)}
 
-    Please provide some insights about this neighbood/location based on the points of interest.
+    Please provide some insights about this location for the viability of opening a new business.
 
-    Is it walkable? Is it safe? Is it a good place to live? What are the pros and cons?
+    Is there a lot of competition? Is it a good place to open a business? What are the pros and cons?
+    Does the area have a lot of foot traffic? 
+    Are there offices or universities or other large businesses nearby that could be potential customers?
+    What is the demographic of the area?
+
+    Provide insights like those to the best of your ability.
 
     Please output a response as a list of JSON objects, where each object represents a card:
 
-    Each card will cover a specific topic like walkability, safety, etc.
+    Each card will cover a specific topic like competition, foot traffic, etc.
     Each card will have a title and a description.
     The title will be a string, and the description will be a short paragraph summarizing the insights.
 
     Example: 
     [
-      {"title": "Walkability", "description": "The neighborhood is very walkable with a lot of pedestrian-friendly infrastructure."},
-      {"title": "Safety", "description": "The area is generally safe, but there are some reports of petty theft."},
-      {"title": "Livability", "description": "The neighborhood has a good mix of residential and commercial spaces, making it a great place to live."}
+     {"title": "Competition", "description": "There are a lot of similar businesses in the area, but there is still room for growth."},
+     {"title": "Foot Traffic", "description": "The area has a lot of foot traffic, making it a great place to open a business."},
+     {"title": "Demographics", "description": "The area has a diverse population, making it a great place to open a business." 
     ]
     
     Generate any cards you feel are relevant. Do not include any backticks or newlines. Ensure your output is immediately usable, valid JSON.
