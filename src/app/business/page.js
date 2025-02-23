@@ -72,6 +72,47 @@ import Card from '@/app/components/Card';
 import LearnMoreButton from '../components/LearnMore';
 import NavBar from '../components/Navbar';
 import CardTest from '../components/CardTest';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
+import { Pie, Line } from "react-chartjs-2";
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
+
+const PieChartContainer = styled.div`
+  width: 450px;  /* Adjust width to fit inside the card */
+  height: 450px; /* Adjust height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto; /* Centers the chart */
+`;
+
+const LineChartContainer = styled.div`
+  width: 100%;
+  max-width: 500px; /* Adjust as needed */
+  height: 250px; /* Adjust height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 1rem;
+`;
+
+const crimeChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false, // Allows custom sizing
+  plugins: {
+    legend: {
+      display: true,
+      position: "top",
+      labels: {
+        font: { size: 10 }, // Reduce label font size
+      },
+    },
+    tooltip: {
+      bodyFont: { size: 10 }, // Reduce tooltip font size
+    },
+  },
+};
 
 // Styled components for the suggestion popup (same as People page)
 const SuggestionList = styled.ul`
@@ -114,6 +155,8 @@ const GridContainer = styled.div`
 
 export default function BusinessPage() {
   const [query, setQuery] = useState('');
+  const [placeId, setPlaceId] = useState("");
+  const [zipcode, setZipcode] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -121,6 +164,8 @@ export default function BusinessPage() {
   const [fetchingRecommendation, setFetchingRecommendation] = useState(false);
   const [optionSelected, setOptionSelected] = useState(false);
   const [businessType, setBusinessType] = useState('');
+  const [topCrimes, setTopCrimes] = useState([]);
+  const [topCrimesByMonth, setTopCrimesByMonth] = useState({});
   const timeoutRef = useRef(null);
 
   // Fetch autocomplete suggestions for the address
@@ -156,6 +201,7 @@ export default function BusinessPage() {
   // When a suggestion is clicked, update the address input and clear suggestions
   const handleSelectSuggestion = (suggestion) => {
     setQuery(suggestion.description);
+    setPlaceId(suggestion.place_id);
     setSuggestions([]);         // Clear suggestions so the popup disappears
     setShowSuggestions(false);  // Hide the dropdown
     setRecommendation(null);    // Clear previous recommendation if needed
@@ -178,6 +224,8 @@ export default function BusinessPage() {
     e.preventDefault();
     if (!query) return;
     setFetchingRecommendation(true);
+    setTopCrimes([]);
+    setTopCrimesByMonth({});
     try {
       // Optionally include the business type in your API call if needed
       const response = await fetch(
@@ -185,12 +233,53 @@ export default function BusinessPage() {
       );
       const data = await response.json();
       setRecommendation(data.message||[]);
+
+      if (!placeId) return;
+
+      const zipResponse = await fetch(`/api/getZipcode?place_id=${encodeURIComponent(placeId)}`);
+      const zipData = await zipResponse.json();
+
+      if (zipData.zipcode) {
+        setZipcode(zipData.zipcode);
+        setTopCrimes(zipData.topCrimes || []);
+        setTopCrimesByMonth(zipData.topCrimesMonthly || {}); 
+      }
     } catch (error) {
       console.error("Error fetching recommendations:", error);
       setRecommendation("Error fetching recommendations.");
     } finally {
       setFetchingRecommendation(false);
     }
+  };
+
+  const processCrimeDataForLineChart = (topCrimesMonthly, topCrimes) => {
+    if (!topCrimesMonthly || Object.keys(topCrimesMonthly).length === 0) return { labels: [], datasets: [] };
+
+    // Use month names instead of numbers
+    const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const topCrimeNames = topCrimes.map(crime => crime.offenseDesc); // Get only the names of top 5 crimes
+
+    const datasets = topCrimeNames.map((offense, index) => ({
+        label: offense,
+        data: monthLabels.map((_, monthIndex) => {
+            const crimes = topCrimesMonthly[monthIndex + 1] || []; // Months are 1-indexed
+            const crime = crimes.find(c => c.offenseDesc === offense);
+            return crime ? crime.count : 0;
+        }),
+        borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'][index % 5],
+        fill: false,
+        tension: 0.2,
+        pointRadius: 3
+    }));
+
+    return { labels: monthLabels, datasets };
+  };
+
+  const lineChartData = Object.keys(topCrimesByMonth).length > 0 ? processCrimeDataForLineChart(topCrimesByMonth, topCrimes) : null;
+
+  const crimeChartData = {
+    labels: topCrimes.map(crime => crime.offenseDesc),
+    datasets: [{ data: topCrimes.map(crime => crime.count), backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'] }]
   };
 
   return (
@@ -241,9 +330,22 @@ export default function BusinessPage() {
         </div>
       </form>
       {recommendation && (
-        //<div style={{ marginTop: '2rem', padding: '1rem' }}>
-          //<CardTest message={recommendation} />
-        //</div>
+        <div>
+        {topCrimes.length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <PieChartContainer style={{ marginTop: '40px' }}>
+                  <Pie data={crimeChartData} options={crimeChartOptions} />
+                </PieChartContainer>
+              </div>
+        )}
+        
+        {Object.keys(topCrimesByMonth).length > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <LineChartContainer>
+                  <Line data={lineChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+                </LineChartContainer>
+              </div>
+        )}
         <GridContainer>
         {recommendation.map((rec, index) => (
           <CardTest
@@ -255,8 +357,8 @@ export default function BusinessPage() {
           />
         ))}
       </GridContainer>
-      )}
-    </div>
-    
+      </div>
+      )} 
+      </div> 
   );  
 }
