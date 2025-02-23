@@ -14,8 +14,8 @@ const Button = () => {
 
 const StyledWrapper = styled.div`
   .button {
-    width: 110px;
-    height: 40px;
+    width: 120px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
