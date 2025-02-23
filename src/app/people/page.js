@@ -8,6 +8,7 @@ import Loading from '@/app/components/Loading';
 import Card from '@/app/components/Card';
 import TruckLoader from '../components/TruckLoader';
 import CardTest from '../components/CardTest';
+import Chatbot from "../components/Chatbot";
 
 // Styled components for the suggestion popup
 const SuggestionList = styled.ul`
@@ -110,6 +111,9 @@ export default function PeoplePage() {
     setQuery(e.target.value);
     setOptionSelected(false);
   };
+
+  //State for violations bar chart
+  const [violationsData, setViolationsData] = useState([]);
 
   // Handle form submission to fetch recommendations
   const handleSubmit = async (e) => {

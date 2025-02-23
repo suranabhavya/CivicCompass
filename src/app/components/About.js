@@ -436,9 +436,9 @@ const About = () => {
                 />
               </div>
               <div className="cardText">
-                <p className="text-blk cardHeading">Value</p>
+                <p className="text-blk cardHeading">Users</p>
                 <p className="text-blk cardSubHeading">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Guarenteed satisfaction for every user!
                 </p>
               </div>
             </div>
@@ -451,9 +451,9 @@ const About = () => {
                 />
               </div>
               <div className="cardText">
-                <p className="text-blk cardHeading">Value</p>
+                <p className="text-blk cardHeading">Top Rated</p>
                 <p className="text-blk cardSubHeading">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  One of the leading tools in the property industry.
                 </p>
               </div>
             </div>
@@ -466,9 +466,9 @@ const About = () => {
                 />
               </div>
               <div className="cardText">
-                <p className="text-blk cardHeading">Value</p>
+                <p className="text-blk cardHeading">AI Driven</p>
                 <p className="text-blk cardSubHeading">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Leverage AI insights to generate expert analysis.
                 </p>
               </div>
             </div>
@@ -481,9 +481,9 @@ const About = () => {
                 />
               </div>
               <div className="cardText">
-                <p className="text-blk cardHeading">Value</p>
+                <p className="text-blk cardHeading">Curated For You</p>
                 <p className="text-blk cardSubHeading">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Our goal is to ensure that you have all information to make an informed decision.
                 </p>
               </div>
             </div>

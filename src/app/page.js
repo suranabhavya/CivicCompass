@@ -5,6 +5,7 @@ import ExploreButton from "./components/BusinessButton";
 import ResidentialButton from "./components/ResidentialButton";
 import ScrollButton from "./components/ScrollDown";
 import About from "./components/About";
+import Chatbot from "./components/Chatbot";
 
 export default function HomePage() {
   const router = useRouter();
@@ -22,6 +23,10 @@ export default function HomePage() {
         </div>
 
         {/* Content */}
+        <div>
+          <h1>Welcome to My Next.js App</h1>
+          <Chatbot />
+        </div>
         <div className="relative z-10 container mx-auto px-5 py-24 flex flex-col items-center">
           <div className="text-center max-w-2xl">
             <br />
