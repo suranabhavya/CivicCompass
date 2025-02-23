@@ -1,9 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function ExploreButton() {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push("/business"); // Navigates to business/page.js
+  };
+
   return (
     <>
-      <button className="button" style={{ "--clr": "#7808d0" }}>
+      <button
+        className="button"
+        style={{ "--clr": "#7808d0" }}
+        onClick={handleNavigation}
+      >
         <span className="button__icon-wrapper">
           <svg
             viewBox="0 0 14 15"

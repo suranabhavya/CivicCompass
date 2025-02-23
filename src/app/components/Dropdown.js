@@ -1,84 +1,72 @@
-import React from 'react';
-import styled from 'styled-components';
+"use client";
+import { useState } from "react";
 
-const Button = () => {
+export default function Dropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <StyledWrapper>
-      <div className="paste-button">
-        <button className="button">Type of Business &nbsp; ▼</button>
-        <div className="dropdown-content">
-          <a id="top" href="#">Grocery Store</a>
-          <a id="middle" href="#">Stationery</a>
-          <a id="bottom" href="#">Food Chain</a>
-          <a id="bottom" href="#">Gym Center</a>
+    <div className="relative inline-block text-left">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Dropdown
+        <svg
+          className="w-2.5 h-2.5 ms-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="m1 1 4 4 4-4"
+          />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-10 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-700">
+          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+            <li>
+              <a
+                href="#"
+                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Settings
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Earnings
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              >
+                Sign out
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
-    </StyledWrapper>
+      )}
+    </div>
   );
 }
 
-const StyledWrapper = styled.div`
-  .paste-button {
-    position: relative;
-    display: block;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .button {
-    background-color: #4CAF50;
-    color: #212121;
-    padding: 10px 15px;
-    font-size: 15px;
-    font-weight: bold;
-    border: 2px solid transparent;
-    border-radius: 15px;
-    cursor: pointer;
-  }
-
-  .dropdown-content {
-    display: none;
-    font-size: 13px;
-    position: absolute;
-    z-index: 1;
-    min-width: 200px;
-    background-color: #212121;
-    border: 2px solid #4CAF50;
-    border-radius: 0px 15px 15px 15px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  }
-
-  .dropdown-content a {
-    color: #4CAF50;
-    padding: 8px 10px;
-    text-decoration: none;
-    display: block;
-    transition: 0.1s;
-  }
-
-  .dropdown-content a:hover {
-    background-color: #4CAF50;
-    color: #212121;
-  }
-
-  .dropdown-content a:focus {
-    background-color: #212121;
-    color: #4CAF50;
-  }
-
-  .dropdown-content #top:hover {
-    border-radius: 0px 13px 0px 0px;
-  }
-
-  .dropdown-content #bottom:hover {
-    border-radius: 0px 0px 13px 13px;
-  }
-
-  .paste-button:hover button {
-    border-radius: 15px 15px 0px 0px;
-  }
-
-  .paste-button:hover .dropdown-content {
-    display: block;
-  }`;
-
-export default Button;
