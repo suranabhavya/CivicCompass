@@ -293,7 +293,7 @@ export default function BusinessPage() {
             <Input 
               value={query} 
               onChange={handleInputChange} 
-              placeholder="Shoot your Address?" 
+              placeholder="Enter Your Address..." 
             />
             {loading && (
               <div style={{ textAlign: 'center', fontSize: '0.9rem' }}>

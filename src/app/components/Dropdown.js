@@ -3,20 +3,11 @@ import { useState } from "react";
 
 export default function Dropdown() {
   const options = [
-    { id: "Restaurant", label: "Restaurant / Café" },
-    { id: "Clothing", label: "Clothing" },
-    { id: "Pet Services", label: "Pet Services" },
-    { id: "Grocery", label: "Grocery / Supermarket" },
-    { id: "Electronics", label: "Electronics & Appliances" },
-    { id: "Salon", label: "Salon & Beauty Services" },
-    { id: "Fitness", label: "Gym & Fitness Centers" },
-    { id: "Health", label: "Healthcare & Medical" },
-    { id: "Education", label: "Education & Tutoring" },
-    { id: "Automotive", label: "Automotive Services" },
-    { id: "Real Estate", label: "Real Estate & Property Management" },
-    { id: "Legal", label: "Legal & Financial Services" },
-    { id: "Home Improvement", label: "Home Improvement & Repairs" },
-    { id: "Travel", label: "Travel & Tourism" },
+    { id: "Restaurant", label: "Restaurant" },
+    { id: "Grocery", label: "Supermarket" },
+    { id: "Salon", label: "Beauty Services" },
+    { id: "Fitness", label: "Gym" },,
+    { id: "Real Estate", label: "Real Estate" },
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0]);
