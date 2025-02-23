@@ -7,6 +7,7 @@ import ExploreButton from '@/app/components/ExploreButton';
 import Loading from '@/app/components/Loading';
 import Card from '@/app/components/Card';
 import TruckLoader from '../components/TruckLoader';
+import CardTest from '../components/CardTest';
 
 // Styled components for the suggestion popup
 const SuggestionList = styled.ul`
@@ -166,19 +167,13 @@ export default function PeoplePage() {
 
       {recommendation.length > 0 && (
         <div
-          style={{
-            marginTop: '2rem',
-            padding: '1rem',
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '1rem'
-          }}
+          
         >
           {recommendation.map((rec, index) => (
-            <Card 
-              key={index} 
-              title={rec.title} 
-              description={rec.description} 
+            <CardTest 
+            key={index} 
+            title={rec.title} 
+            description={rec.description} 
             />
           ))}
         </div>
