@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Card = ({ message }) => {
+const Card = ({ title, description }) => {
   return (
     <StyledWrapper>
       <div className="card">
         <span />
         <div className="content">
-          {message || "Hover Me : )"}
+          <h2 className="title">{title}</h2>
+          <p className="description">{description}</p>
         </div>
       </div>
     </StyledWrapper>
@@ -35,7 +36,7 @@ const StyledWrapper = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    background: linear-gradient(45deg, #C8B6FF,rgb(149, 182, 247));
+    background: linear-gradient(45deg, #C8B6FF, rgb(149, 182, 247));
     border-radius: 1.2em;
   }
 
@@ -46,7 +47,7 @@ const StyledWrapper = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, #C8B6FF,rgb(120, 78, 247));
+    background: linear-gradient(45deg, #C8B6FF, rgb(120, 78, 247));
     filter: blur(30px);
   }
 
@@ -78,10 +79,20 @@ const StyledWrapper = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+
+  .card .content .title {
+    font-size: 2em; /* Larger text for title */
     font-weight: 800;
-    font-size: 1.5em;
+    margin: 0 0 10px 0;
+  }
+
+  .card .content .description {
+    font-size: 1em; /* Smaller text for description */
+    margin: 0;
   }
 `;
 
