@@ -113,6 +113,7 @@ const crimeChartOptions = {
     },
   },
 };
+import CardBusiness from '../components/CardBusiness';
 
 // Styled components for the suggestion popup (same as People page)
 const SuggestionList = styled.ul`
@@ -348,7 +349,7 @@ export default function BusinessPage() {
         )}
         <GridContainer>
         {recommendation.map((rec, index) => (
-          <CardTest
+          <CardBusiness
             key={index}
             title={rec.title}
             description={rec.description}
