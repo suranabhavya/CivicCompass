@@ -31,7 +31,7 @@ export default function HomePage() {
           <div className="text-center max-w-2xl">
             <br />
             <h1 className="title-font sm:text-5xl text-4xl mb-6 font-bold lg:text-6xl text-white">
-              idontknowwheretorent.bizz
+              idontknowwheretorent.biz
             </h1>
             <p className="text-xl font-medium text-white">Find Your Perfect Place</p>
             <br />

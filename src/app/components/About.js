@@ -425,7 +425,7 @@ const About = () => {
           <div className="responsive-container-block textSide">
             <p className="text-blk heading">About Us</p>
             <p className="text-blk subHeading">
-                At <span className="">idontknowwheretorent.biz</span>, we provide detailed analyses of potential business and residential locations to help you make informed decisions. Our platform offers insights into factors such as customer proximity, accessibility, safety, and amenities, ensuring you find the ideal space for your needs.
+                At <span className="font-bold">idontknowwheretorent.biz</span>, we provide detailed analyses of potential business and residential locations to help you make informed decisions. Our platform offers insights into factors such as customer proximity, accessibility, safety, and amenities, ensuring you find the ideal space for your needs.
             </p>
             <div className="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
               <div className="cardImgContainer">
