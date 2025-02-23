@@ -15,14 +15,14 @@ const SuggestionList = styled.ul`
   right: 0;
   background: #fff;
   border: 1px solid #ccc;
-  border-radius: 8px;  /* Rounded corners */
+  border-radius: 8px; /* Rounded corners */
   list-style: none;
   margin: 0;
   padding: 0;
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
-  color: #000;         /* Black text */
+  color: #000; /* Black text */
 `;
 
 const SuggestionItem = styled.li`
@@ -37,6 +37,19 @@ const SuggestionItem = styled.li`
   }
 `;
 
+const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 2000;
+`;
+
 export default function PeoplePage() {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -49,7 +62,6 @@ export default function PeoplePage() {
 
   // Fetch autocomplete suggestions as the user types
   useEffect(() => {
-    // Skip fetching if an option has been selected
     if (optionSelected) return;
 
     if (query.trim() === '') {
@@ -58,7 +70,6 @@ export default function PeoplePage() {
       return;
     }
 
-    // Debounce the API call by 300ms
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(async () => {
       setLoading(true);
@@ -91,7 +102,7 @@ export default function PeoplePage() {
     setOptionSelected(true);    // Mark that an option was selected
   };
 
-  // When the user types, ensure optionSelected is false so suggestions will be fetched again
+  // Reset optionSelected flag when the user types again
   const handleInputChange = (e) => {
     setQuery(e.target.value);
     setOptionSelected(false);
@@ -143,26 +154,23 @@ export default function PeoplePage() {
               </SuggestionList>
             )}
           </div>
-          {/* Submit button or loading indicator to the right */}
+          {/* Always show the submit button */}
           <div style={{ marginLeft: '10px' }}>
-            {fetchingRecommendation ? (
-              <Loading />
-            ) : (
-              <ExploreButton type="submit">Submit</ExploreButton>
-            )}
+            <ExploreButton type="submit">Submit</ExploreButton>
           </div>
         </div>
       </form>
 
       {recommendation && (
-        <div
-          style={{
-            marginTop: '2rem',
-            padding: '1rem',
-          }}
-        >
-          {recommendation && <Card message={recommendation} />}
+        <div style={{ marginTop: '2rem', padding: '1rem' }}>
+          <Card message={recommendation} />
         </div>
+      )}
+
+      {fetchingRecommendation && (
+        <LoadingOverlay>
+          <Loading />
+        </LoadingOverlay>
       )}
     </div>
   );
