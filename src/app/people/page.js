@@ -55,7 +55,8 @@ export default function PeoplePage() {
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [recommendation, setRecommendation] = useState(null);
+  // Now recommendation is expected to be an array of objects [{title, description}, ...]
+  const [recommendation, setRecommendation] = useState([]);
   const [fetchingRecommendation, setFetchingRecommendation] = useState(false);
   const [optionSelected, setOptionSelected] = useState(false);
   const timeoutRef = useRef(null);
@@ -98,7 +99,7 @@ export default function PeoplePage() {
     setQuery(suggestion.description);
     setSuggestions([]);         // Clear suggestions so the popup disappears
     setShowSuggestions(false);  // Hide the dropdown
-    setRecommendation(null);    // Clear previous recommendation if needed
+    setRecommendation([]);      // Clear previous recommendation if needed
     setOptionSelected(true);    // Mark that an option was selected
   };
 
@@ -116,10 +117,11 @@ export default function PeoplePage() {
     try {
       const response = await fetch(`/api/getRecommendations?address=${encodeURIComponent(query)}`);
       const data = await response.json();
+      // Assuming data.message is now an array of objects [{title, description}, ...]
       setRecommendation(data.message);
     } catch (error) {
       console.error("Error fetching recommendations:", error);
-      setRecommendation("Error fetching recommendations.");
+      setRecommendation([{ title: "Error", description: "Error fetching recommendations." }]);
     } finally {
       setFetchingRecommendation(false);
     }
@@ -134,13 +136,13 @@ export default function PeoplePage() {
             <Input 
               value={query} 
               onChange={handleInputChange} 
-              placeholder="Shoot your Address?" 
+              placeholder="Enter Address Here.." 
             />
-            {/* {loading && (
+            {loading && (
               <div style={{ textAlign: 'center', fontSize: '0.9rem' }}>
                 Loading suggestions...
               </div>
-            )} */}
+            )}
             {showSuggestions && suggestions.length > 0 && (
               <SuggestionList>
                 {suggestions.map((suggestion) => (
@@ -161,9 +163,23 @@ export default function PeoplePage() {
         </div>
       </form>
 
-      {recommendation && (
-        <div style={{ marginTop: '2rem', padding: '1rem' }}>
-          <Card message={recommendation} />
+      {recommendation.length > 0 && (
+        <div
+          style={{
+            marginTop: '2rem',
+            padding: '1rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '1rem'
+          }}
+        >
+          {recommendation.map((rec, index) => (
+            <Card 
+              key={index} 
+              title={rec.title} 
+              description={rec.description} 
+            />
+          ))}
         </div>
       )}
 

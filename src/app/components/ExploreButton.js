@@ -20,15 +20,15 @@ const StyledWrapper = styled.div`
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
-    background-color: rgb(154, 121, 255);
+    background-color: #3388cc;
     border-radius: 30px;
-    color: rgb(19, 19, 19);
+    color: rgb(255, 255, 255);
     font-weight: 600;
     border: none;
     position: relative;
     cursor: pointer;
     transition-duration: .2s;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.116);
+    box-shadow: 5px 5px 10px rgba(51, 136, 204, 0.8);
     padding-left: 8px;
     transition-duration: .5s;
   }
@@ -39,11 +39,12 @@ const StyledWrapper = styled.div`
   }
 
   .bell path {
-    fill: rgb(19, 19, 19);
+    fill: rgb(255, 255, 255);
   }
 
   .button:hover {
     background-color: rgb(209, 194, 255);
+    box-shadow: 5px 5px 10px rgba(209, 194, 255, 0.8);
     transition-duration: .5s;
   }
 
