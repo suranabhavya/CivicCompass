@@ -357,7 +357,7 @@ export default function BusinessPage() {
             color={["#0056b3", "#800080", "#FF4081"][index % 3]}
           />
         ))}
-      </GridContainer>
+        </GridContainer>
       </div>
       )} 
       </div> 
