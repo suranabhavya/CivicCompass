@@ -30,7 +30,7 @@ export default function ExploreButton() {
             ></path>
           </svg>
         </span>
-        RETAILER
+        BUSINESS
       </button>
 
       <style jsx>{`
