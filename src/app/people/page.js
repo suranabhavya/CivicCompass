@@ -6,11 +6,12 @@ import Input from "@/app/components/Input";
 import ExploreButton from "@/app/components/ExploreButton";
 import Loading from "@/app/components/Loading";
 import CardTest from "../components/CardTest";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement } from "chart.js";
+import { Pie, Line } from "react-chartjs-2";
+
 import NavBar from "../components/Navbar";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
 
 const PieChartContainer = styled.div`
   width: 450px;  /* Adjust width to fit inside the card */
@@ -19,6 +20,17 @@ const PieChartContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: auto; /* Centers the chart */
+`;
+
+const LineChartContainer = styled.div`
+  width: 100%;
+  max-width: 500px; /* Adjust as needed */
+  height: 250px; /* Adjust height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 1rem;
 `;
 
 const crimeChartOptions = {
@@ -101,6 +113,7 @@ export default function PeoplePage() {
   const [fetchingRecommendation, setFetchingRecommendation] = useState(false);
   const [optionSelected, setOptionSelected] = useState(false);
   const [topCrimes, setTopCrimes] = useState([]);
+  const [topCrimesByMonth, setTopCrimesByMonth] = useState({});
   const timeoutRef = useRef(null);
 
   useEffect(() => {
@@ -148,6 +161,7 @@ export default function PeoplePage() {
     if (!query) return;
     setFetchingRecommendation(true);
     setTopCrimes([]);
+    setTopCrimesByMonth({});
 
     try {
       const response = await fetch(`/api/getRecommendations?address=${encodeURIComponent(query)}`);
@@ -162,6 +176,7 @@ export default function PeoplePage() {
       if (zipData.zipcode) {
         setZipcode(zipData.zipcode);
         setTopCrimes(zipData.topCrimes || []);
+        setTopCrimesByMonth(zipData.topCrimesMonthly || {}); 
       }
     } catch (error) {
       console.error("Error fetching recommendations:", error);
@@ -170,6 +185,52 @@ export default function PeoplePage() {
       setFetchingRecommendation(false);
     }
   };
+
+  // const processCrimeDataForLineChart = (topCrimesMonthly, topCrimes) => {
+  //   if (!topCrimesMonthly || Object.keys(topCrimesMonthly).length === 0) return { labels: [], datasets: [] };
+
+  //   const labels = Array.from({ length: 12 }, (_, i) => `Month ${i + 1}`);
+  //   const topCrimeNames = topCrimes.map(crime => crime.offenseDesc); // Get only the names of top 5 crimes
+
+  //   const datasets = topCrimeNames.map((offense, index) => ({
+  //       label: offense,
+  //       data: labels.map((_, monthIndex) => {
+  //           const crimes = topCrimesMonthly[monthIndex + 1] || [];
+  //           const crime = crimes.find(c => c.offenseDesc === offense);
+  //           return crime ? crime.count : 0;
+  //       }),
+  //       borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'][index % 5],
+  //       fill: false,
+  //       tension: 0.2,
+  //       pointRadius: 3
+  //   }));
+
+  //   return { labels, datasets };
+  // };
+  const processCrimeDataForLineChart = (topCrimesMonthly, topCrimes) => {
+    if (!topCrimesMonthly || Object.keys(topCrimesMonthly).length === 0) return { labels: [], datasets: [] };
+
+    // Use month names instead of numbers
+    const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const topCrimeNames = topCrimes.map(crime => crime.offenseDesc); // Get only the names of top 5 crimes
+
+    const datasets = topCrimeNames.map((offense, index) => ({
+        label: offense,
+        data: monthLabels.map((_, monthIndex) => {
+            const crimes = topCrimesMonthly[monthIndex + 1] || []; // Months are 1-indexed
+            const crime = crimes.find(c => c.offenseDesc === offense);
+            return crime ? crime.count : 0;
+        }),
+        borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9C27B0'][index % 5],
+        fill: false,
+        tension: 0.2,
+        pointRadius: 3
+    }));
+
+    return { labels: monthLabels, datasets };
+  };
+
+  const lineChartData = Object.keys(topCrimesByMonth).length > 0 ? processCrimeDataForLineChart(topCrimesByMonth, topCrimes) : null;
 
   const crimeChartData = {
     labels: topCrimes.map(crime => crime.offenseDesc),
@@ -183,7 +244,7 @@ export default function PeoplePage() {
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ position: "relative", flex: 1 }}>
             <Input value={query} onChange={handleInputChange} placeholder="Enter Address Here.." />
-            {loading && <div style={{ textAlign: "center", fontSize: "0.9rem" }}>Loading suggestions...</div>}
+            {/* {loading && <div style={{ textAlign: "center", fontSize: "0.9rem" }}>Loading suggestions...</div>} */}
             {showSuggestions && suggestions.length > 0 && (
               <SuggestionList>
                 {suggestions.map((suggestion) => (
@@ -207,6 +268,14 @@ export default function PeoplePage() {
         <PieChartContainer style={{ marginTop: '40px' }}>
           <Pie data={crimeChartData} options={crimeChartOptions} />
         </PieChartContainer>
+      </div>
+    )}
+
+    {Object.keys(topCrimesByMonth).length > 0 && (
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <LineChartContainer>
+          <Line data={lineChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+        </LineChartContainer>
       </div>
     )}
 
