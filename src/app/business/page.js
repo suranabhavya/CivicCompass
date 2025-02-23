@@ -69,6 +69,8 @@ import Dropdown from '@/app/components/Dropdown'; // Updated Dropdown that accep
 import ExploreButton from '@/app/components/ExploreButton';
 import Loading from '@/app/components/Loading';
 import Card from '@/app/components/Card';
+import LearnMoreButton from '../components/LearnMore';
+import NavBar from '../components/Navbar';
 
 // Styled components for the suggestion popup (same as People page)
 const SuggestionList = styled.ul`
@@ -183,10 +185,11 @@ export default function BusinessPage() {
 
   return (
     <div style={{ position: 'relative', maxWidth: '1000px', margin: '3rem auto' }}>
+      <NavBar />
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
           {/* Address input with autocomplete suggestions */}
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative', width: '100%' }}>
             <Input 
               value={query} 
               onChange={handleInputChange} 
@@ -210,19 +213,19 @@ export default function BusinessPage() {
               </SuggestionList>
             )}
           </div>
-          {/* Business type dropdown */}
-          <div>
+          {/* Centered Business type dropdown */}
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Dropdown 
               onSelect={handleBusinessTypeSelect} 
               selected={businessType} 
             />
           </div>
-          {/* Submit button or loading indicator */}
-          <div>
+          {/* Centered Submit button */}
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' , marginTop: '10rem'}}>
             {fetchingRecommendation ? (
               <Loading />
             ) : (
-              <ExploreButton type="submit">Submit</ExploreButton>
+              <LearnMoreButton type="submit">Submit</LearnMoreButton>
             )}
           </div>
         </div>
@@ -233,5 +236,5 @@ export default function BusinessPage() {
         </div>
       )}
     </div>
-  );
+  );  
 }
