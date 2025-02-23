@@ -101,13 +101,50 @@ export async function GET(req) {
         const crimeResponse = await fetch(crimeApiUrl);
         const crimeData = await crimeResponse.json();
 
+        if (!crimeData.features || crimeData.features.length === 0) {
+            return NextResponse.json({ zipcode, topCrimes: [], topCrimesMonthly: {} });
+        }
+
         const crimeCounts = {};
-        crimeData.features?.forEach(feature => {
-            const offenseDesc = feature.properties.OFFENSE_DESC;
-            crimeCounts[offenseDesc] = (crimeCounts[offenseDesc] || 0) + 1;
+        const crimeCountsByMonth = {};
+
+        // Initialize the monthly structure
+        for (let month = 1; month <= 12; month++) {
+            crimeCountsByMonth[month] = {};
+        }
+
+        // Aggregate crime data
+        crimeData.features.forEach(feature => {
+            const { MONTH, OFFENSE_DESC } = feature.properties;
+            if (!MONTH || !OFFENSE_DESC) return;
+
+            // Count total crimes
+            crimeCounts[OFFENSE_DESC] = (crimeCounts[OFFENSE_DESC] || 0) + 1;
+
+            // Count crimes per month
+            if (!crimeCountsByMonth[MONTH][OFFENSE_DESC]) {
+                crimeCountsByMonth[MONTH][OFFENSE_DESC] = 0;
+            }
+            crimeCountsByMonth[MONTH][OFFENSE_DESC]++;
         });
 
-        return NextResponse.json({ zipcode, topCrimes: Object.entries(crimeCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([desc, count]) => ({ offenseDesc: desc, count })) });
+        // Get top 5 overall crimes
+        const topCrimes = Object.entries(crimeCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([offenseDesc, count]) => ({ offenseDesc, count }));
+
+        // Extract only top 5 crimes for month-wise counts
+        const topCrimeNames = new Set(topCrimes.map(crime => crime.offenseDesc));
+        const topCrimesMonthly = {};
+
+        for (let month = 1; month <= 12; month++) {
+            topCrimesMonthly[month] = Object.entries(crimeCountsByMonth[month])
+                .filter(([offenseDesc]) => topCrimeNames.has(offenseDesc))
+                .map(([offenseDesc, count]) => ({ offenseDesc, count }));
+        }
+
+        return NextResponse.json({ zipcode, topCrimes, topCrimesMonthly });
     } catch (error) {
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
