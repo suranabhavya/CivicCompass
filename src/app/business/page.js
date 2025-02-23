@@ -60,7 +60,7 @@
 
 
 
-'use client';
+"use client";
 
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
@@ -103,12 +103,21 @@ const SuggestionItem = styled.li`
   }
 `;
 
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+  justify-items: center;
+  justify-content: center;
+`;
+
 export default function BusinessPage() {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [recommendation, setRecommendation] = useState(null);
+  const [recommendation, setRecommendation] = useState([]);
   const [fetchingRecommendation, setFetchingRecommendation] = useState(false);
   const [optionSelected, setOptionSelected] = useState(false);
   const [businessType, setBusinessType] = useState('');
@@ -175,7 +184,7 @@ export default function BusinessPage() {
         `/api/getRecommendations?address=${encodeURIComponent(query)}&businessType=${encodeURIComponent(businessType)}`
       );
       const data = await response.json();
-      setRecommendation(data.message);
+      setRecommendation(data.message||[]);
     } catch (error) {
       console.error("Error fetching recommendations:", error);
       setRecommendation("Error fetching recommendations.");
@@ -232,10 +241,22 @@ export default function BusinessPage() {
         </div>
       </form>
       {recommendation && (
-        <div style={{ marginTop: '2rem', padding: '1rem' }}>
-          <CardTest message={recommendation} />
-        </div>
+        //<div style={{ marginTop: '2rem', padding: '1rem' }}>
+          //<CardTest message={recommendation} />
+        //</div>
+        <GridContainer>
+        {recommendation.map((rec, index) => (
+          <CardTest
+            key={index}
+            title={rec.title}
+            description={rec.description}
+            speed={index % 2 === 0 ? "9s" : "12s"}
+            color={["#0056b3", "#800080", "#FF4081"][index % 3]}
+          />
+        ))}
+      </GridContainer>
       )}
     </div>
+    
   );  
 }
