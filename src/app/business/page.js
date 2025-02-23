@@ -71,6 +71,7 @@ import Loading from '@/app/components/Loading';
 import Card from '@/app/components/Card';
 import LearnMoreButton from '../components/LearnMore';
 import NavBar from '../components/Navbar';
+import CardTest from '../components/CardTest';
 
 // Styled components for the suggestion popup (same as People page)
 const SuggestionList = styled.ul`
@@ -232,7 +233,7 @@ export default function BusinessPage() {
       </form>
       {recommendation && (
         <div style={{ marginTop: '2rem', padding: '1rem' }}>
-          <Card message={recommendation} />
+          <CardTest message={recommendation} />
         </div>
       )}
     </div>

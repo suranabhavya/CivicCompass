@@ -10,8 +10,8 @@ const CardTest = ({ title, description, speed, color }) => {
         <div className="bg" />
         <div className="blob" />
         <div className="content">
-          <h2 className="title">{title}</h2>
-          <p className="description">{description}</p>
+          <h2 className="title font-bold">{title}</h2>
+          <p className="description text-black">{description}</p>
         </div>
       </div>
     </StyledWrapper>

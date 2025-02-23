@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function NavBar() {
   return (
     <nav className="menu mb-5 ">
-      <Link href="#" legacyBehavior>
+      <Link href="/" legacyBehavior>
         <a className="link">
           <span className="link-icon">
             <svg
@@ -28,7 +28,7 @@ export default function NavBar() {
         </a>
       </Link>
 
-      <Link href="#" legacyBehavior>
+      <Link href="/business" legacyBehavior>
         <a className="link">
           <span className="link-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"}>
@@ -41,7 +41,7 @@ export default function NavBar() {
         </a>
       </Link>
 
-      <Link href="#" legacyBehavior>
+      <Link href="/people" legacyBehavior>
         <a className="link">
           <span className="link-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#000000"} fill={"none"}>

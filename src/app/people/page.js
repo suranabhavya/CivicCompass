@@ -8,6 +8,7 @@ import Loading from "@/app/components/Loading";
 import CardTest from "../components/CardTest";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from "react-chartjs-2";
+import NavBar from "../components/Navbar";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -177,6 +178,7 @@ export default function PeoplePage() {
 
   return (
     <div style={{ position: "relative", maxWidth: "1000px", margin: "3rem auto" }}>
+      <NavBar />
       <form onSubmit={handleSubmit}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ position: "relative", flex: 1 }}>
@@ -199,17 +201,28 @@ export default function PeoplePage() {
       </form>
 
       {recommendation.length > 0 && (
-        <GridContainer>
-          {recommendation.map((rec, index) => (
-            <CardTest key={index} title={rec.title} description={rec.description} speed={index % 2 === 0 ? "9s" : "12s"} color={["#0056b3", "#800080", "#FF4081"][index % 3]} />
-          ))}
-          {topCrimes.length > 0 && (
-            <PieChartContainer>
-              <Pie data={crimeChartData} options={crimeChartOptions} />
-            </PieChartContainer>
-          )}
-        </GridContainer>
-      )}
+  <>
+    {topCrimes.length > 0 && (
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        <PieChartContainer style={{ marginTop: '40px' }}>
+          <Pie data={crimeChartData} options={crimeChartOptions} />
+        </PieChartContainer>
+      </div>
+    )}
+
+    <GridContainer>
+      {recommendation.map((rec, index) => (
+        <CardTest
+          key={index}
+          title={rec.title}
+          description={rec.description}
+          speed={index % 2 === 0 ? "9s" : "12s"}
+          color={["#0056b3", "#800080", "#FF4081"][index % 3]}
+        />
+      ))}
+    </GridContainer>
+  </>
+)}
 
       {fetchingRecommendation && <LoadingOverlay><Loading /></LoadingOverlay>}
     </div>
