@@ -9,7 +9,7 @@ export async function GET(request) {
   // Do whatever you want
   const { searchParams } = new URL(request.url);
   const address = searchParams.get('address');
-  const type = searchParams.get('type');
+  const type = searchParams.get('businessType');
 
   const coordinates = await getCoordinates(address);
   const poi = await getPOI(coordinates.lat, coordinates.lon);
@@ -47,8 +47,14 @@ export async function GET(request) {
      {"title": "Foot Traffic", "description": "The area has a lot of foot traffic, making it a great place to open a business."},
      {"title": "Demographics", "description": "The area has a diverse population, making it a great place to open a business." 
     ]
+
+    One card should provide the number of competitors in the area usable for making a bar chart.
+
+    Example:
+
+    {"title": "Competitors", "description": "There are 5 competitors in the area.", "competitors": [{"type": "restaurant", "count": 3}, {"type": "cafe", "count": 2}...]}
     
-    Generate any cards you feel are relevant. Do not include any backticks or newlines. Ensure your output is immediately usable, valid JSON.
+    Generate any additional cards you feel are relevant. Do not include any backticks or newlines. Ensure your output is immediately usable, valid JSON.
   `
   const llmResponse = await getLLMResponse(prompt);
   
