@@ -136,11 +136,11 @@ export default function PeoplePage() {
               onChange={handleInputChange} 
               placeholder="Shoot your Address?" 
             />
-            {loading && (
+            {/* {loading && (
               <div style={{ textAlign: 'center', fontSize: '0.9rem' }}>
                 Loading suggestions...
               </div>
-            )}
+            )} */}
             {showSuggestions && suggestions.length > 0 && (
               <SuggestionList>
                 {suggestions.map((suggestion) => (
