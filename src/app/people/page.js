@@ -6,6 +6,7 @@ import Input from '@/app/components/Input';
 import ExploreButton from '@/app/components/ExploreButton';
 import Loading from '@/app/components/Loading';
 import Card from '@/app/components/Card';
+import TruckLoader from '../components/TruckLoader';
 
 // Styled components for the suggestion popup
 const SuggestionList = styled.ul`
