@@ -2,71 +2,55 @@
 import { useState } from "react";
 
 export default function Dropdown() {
+  const options = [
+    { id: "all", label: "Business Type" },
+    { id: "Restaurant", label: "Restaurant / Café" },
+    { id: "Clothing", label: "Clothing" },
+    { id: "Pet Services", label: "Pet Services" },
+  ];
+
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative inline-block text-left">
-      <button
+    <div className="relative w-fit cursor-pointer text-white">
+      {/* Selected Value */}
+      <div
+        className="bg-gray-800 px-4 py-2 flex justify-between items-center rounded-md"
         onClick={() => setIsOpen(!isOpen)}
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Dropdown
+        {selectedOption.label}
         <svg
-          className="w-2.5 h-2.5 ms-3"
-          aria-hidden="true"
+          className={`w-4 h-4 transition-transform ${
+            isOpen ? "rotate-0" : "-rotate-90"
+          }`}
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
+          viewBox="0 0 512 512"
+          fill="white"
         >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="m1 1 4 4 4-4"
-          />
+          <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
         </svg>
-      </button>
+      </div>
 
+      {/* Dropdown Options */}
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-700">
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Settings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Earnings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Sign out
-              </a>
-            </li>
-          </ul>
+        <div className="absolute mt-1 bg-gray-800 w-full rounded-md shadow-lg">
+          {options.map((option) => (
+            <div
+              key={option.id}
+              className={`px-4 py-2 hover:bg-gray-700 ${
+                selectedOption.id === option.id ? "hidden" : ""
+              }`}
+              onClick={() => {
+                setSelectedOption(option);
+                setIsOpen(false);
+              }}
+            >
+              {option.label}
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
 }
-
