@@ -12,7 +12,7 @@ import TruckLoader from '../components/TruckLoader';
 const SuggestionList = styled.ul`
   position: absolute;
   top: 110%;
-  left: 0;
+  left: 0; 
   right: 0;
   background: #fff;
   border: 1px solid #ccc;
