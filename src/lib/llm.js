@@ -8,7 +8,10 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 export async function getLLMResponse(prompt) {
   const result = await model.generateContent(prompt);
-  const text = result.response.text() 
+  let text = result.response.text() 
   console.log(text);
-  return text;
+  text = text.replace(/(\r\n|\n|\r)/gm, "");
+  text = text.replaceAll("```", "");
+  text = text.replaceAll("json", "");
+  return JSON.parse(text);
 }
