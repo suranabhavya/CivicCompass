@@ -9,6 +9,7 @@ export async function GET(request) {
   // Do whatever you want
   const { searchParams } = new URL(request.url);
   const address = searchParams.get('address');
+  const type = searchParams.get('type');
 
   const coordinates = await getCoordinates(address);
   const poi = await getPOI(coordinates.lat, coordinates.lon);
@@ -23,10 +24,14 @@ export async function GET(request) {
 
     Please provide some insights about this location for the viability of opening a new business.
 
+    The user is interested in opening a ${type} in this location.
+
     Is there a lot of competition? Is it a good place to open a business? What are the pros and cons?
     Does the area have a lot of foot traffic? 
     Are there offices or universities or other large businesses nearby that could be potential customers?
     What is the demographic of the area?
+
+    How is this area for opening a ${type} business? For example, it would not be great to open a bar in a very residential area.
 
     Provide insights like those to the best of your ability.
 

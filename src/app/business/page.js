@@ -181,7 +181,7 @@ export default function BusinessPage() {
     try {
       // Optionally include the business type in your API call if needed
       const response = await fetch(
-        `/api/getRecommendations?address=${encodeURIComponent(query)}&businessType=${encodeURIComponent(businessType)}`
+        `/api/getBusinessRecommendations?address=${encodeURIComponent(query)}&businessType=${encodeURIComponent(businessType)}`
       );
       const data = await response.json();
       setRecommendation(data.message||[]);
