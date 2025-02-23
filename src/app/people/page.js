@@ -134,7 +134,7 @@ export default function PeoplePage() {
             <Input 
               value={query} 
               onChange={handleInputChange} 
-              placeholder="Shoot your Address?" 
+              placeholder="Enter Address Here.." 
             />
             {/* {loading && (
               <div style={{ textAlign: 'center', fontSize: '0.9rem' }}>

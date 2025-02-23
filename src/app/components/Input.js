@@ -117,7 +117,7 @@ const Input = ({ value, onChange, placeholder }) => {
       </span>
       <input
         type="text"
-        placeholder={placeholder || "Type something here..."}
+        placeholder={placeholder || "Enter Address Here..."}
         value={value}
         onChange={onChange}
         className="input"
@@ -144,11 +144,11 @@ const StyledWrapper = styled.div`
     border: 2px solid #8707ff;
     border-radius: 30px;
     background: transparent;
-    color: white;
+    color: black;
   }
 
   .input:active {
-    box-shadow: 2px 2px 15px #8707ff inset;
+    box-shadow: 0.5px 0.5px 10px #8707ff inset;
   }
 `;
 
