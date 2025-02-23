@@ -72,6 +72,7 @@ import Card from '@/app/components/Card';
 import LearnMoreButton from '../components/LearnMore';
 import NavBar from '../components/Navbar';
 import CardTest from '../components/CardTest';
+import CardBusiness from '../components/CardBusiness';
 
 // Styled components for the suggestion popup (same as People page)
 const SuggestionList = styled.ul`
@@ -246,7 +247,7 @@ export default function BusinessPage() {
         //</div>
         <GridContainer>
         {recommendation.map((rec, index) => (
-          <CardTest
+          <CardBusiness
             key={index}
             title={rec.title}
             description={rec.description}
